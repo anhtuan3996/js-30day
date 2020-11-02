@@ -57,8 +57,8 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
   <script>
+      const PLAYING_CLASSS = 'playing'
       document.addEventListener('keydown', function(e) {
-          console.log(e)
           const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
 
           if(!audio) return
@@ -67,9 +67,22 @@
 
           audio.play()
 
-          console.log(audio)
+          const element = document.querySelector(`div[data-key="${e.keyCode}"]`)
 
+
+          let arrClasses = element.className.split(" ");
+          if (arrClasses.indexOf(PLAYING_CLASSS) == -1) {
+            element.className += ` ${PLAYING_CLASSS}`
+          }
       })
+        const keys = Array.from(document.querySelectorAll('.key'))
+
+        keys.map(function(key) {
+          return key.addEventListener('transitionend', function(event) {
+            if(event.propertyName !== 'transform') return;
+            this.classList.remove(PLAYING_CLASSS);
+          })
+        })
   </script>
 </body>
 </html>
